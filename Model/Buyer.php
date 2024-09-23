@@ -51,7 +51,7 @@ class Buyer
         $DOMParty = $doc->createElement("cac:Party");
         //PartyIdentification START
         $DOMPartyId1 = $doc->generateElement("cac:PartyIdentification / cbc:ID [schemeID=TIN]", $this->TIN);
-        $DOMPartyId2 = $doc->generateElement("cac:PartyIdentification / cbc:ID [schemeID=" . $this->IdType . "]", $this->IdValue);
+        $DOMPartyId2 = $doc->generateElement("cac:PartyIdentification / cbc:ID [schemeID=" .strtoupper($this->IdType). "]", $this->IdValue);
         $DOMParty->appendChild($DOMPartyId1);
         $DOMParty->appendChild($DOMPartyId2);
         if(!empty($this->SST)){
