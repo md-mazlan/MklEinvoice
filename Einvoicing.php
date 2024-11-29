@@ -148,6 +148,29 @@ class Einvoicing
 
         return json_decode($response);
     }
+    function searchDocuments(SearchFilter $searchFilter)
+    {
+        if (empty($this->platform->getToken())) {
+            $res["statusCode"] = 0;
+            $res["message"] = "NO_TOKEN";
+            $json = json_encode($res);
+            return json_decode($json);
+        }
+        $authorization = "Authorization: Bearer " . $this->platform->getToken();
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "https://" . $this->platform->getApiBaseUrl() . "/api/v1.0/documents/search?" . $searchFilter->getParamString());
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array($authorization));
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+
+        return json_decode($response);
+    }
     function getSubmission($submissionId)
     {
         if (empty($this->platform->getToken())) {
