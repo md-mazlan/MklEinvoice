@@ -63,13 +63,13 @@ class Buyer
         //PostalAddress START
         $DOMPostalAddres = $doc->createElement("cac:PostalAddress");
 
-        $DOMPostalAddres->appendChild($doc->createElement("cbc:CityName", htmlspecialchars($this->CityName)));
+        $DOMPostalAddres->appendChild($doc->createElement("cbc:CityName", htmlspecialchars( trim($this->CityName) )));
         $DOMPostalAddres->appendChild($doc->createElement("cbc:PostalZone", $this->PostalZone));
         $DOMPostalAddres->appendChild($doc->createElement("cbc:CountrySubentityCode", $this->CountrySubentityCode));
 
         $addressLines = $this->AddressLine;
         for ($i = 0; $i < sizeof($addressLines); $i++) {
-            $DOMAddressLine = $doc->generateElement("cac:AddressLine / cbc:Line", htmlspecialchars($addressLines[$i]));
+            $DOMAddressLine = $doc->generateElement("cac:AddressLine / cbc:Line", htmlspecialchars(trim($addressLines[$i]) ));
             $DOMPostalAddres->appendChild($DOMAddressLine);
         }
 
@@ -78,13 +78,13 @@ class Buyer
         //PostalAddress END
 
         $DOMParty->appendChild(
-            $doc->generateElement("cac:PartyLegalEntity / cbc:RegistrationName", htmlspecialchars($this->RegistrationName))
+            $doc->generateElement("cac:PartyLegalEntity / cbc:RegistrationName", htmlspecialchars(trim($this->RegistrationName) ))
         );
         //Contact START
         $ContactArray = array();
         $ContactArray[] =  ["cac:Contact / cbc:Telephone", $this->Telephone];
         if(isset($this->ElectronicMail)){
-            $ContactArray[] =  ["cac:Contact / cbc:ElectronicMail", htmlspecialchars($this->ElectronicMail)];
+            $ContactArray[] =  ["cac:Contact / cbc:ElectronicMail", htmlspecialchars(trim($this->ElectronicMail) )];
         }
         $DOMContact = $doc->appendChild(
             $doc->generateElements(
