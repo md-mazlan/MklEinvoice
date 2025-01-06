@@ -63,11 +63,7 @@ class Buyer
         //PostalAddress START
         $DOMPostalAddres = $doc->createElement("cac:PostalAddress");
 
-<<<<<<< HEAD
-        $DOMPostalAddres->appendChild($doc->createElement("cbc:CityName", htmlspecialchars(trim($this->CityName) )));
-=======
         $DOMPostalAddres->appendChild($doc->createElement("cbc:CityName", htmlspecialchars( trim($this->CityName) )));
->>>>>>> 3ea71f13eeebb8d9e47c5e9e5d0739d4253624c2
         $DOMPostalAddres->appendChild($doc->createElement("cbc:PostalZone", $this->PostalZone));
         $DOMPostalAddres->appendChild($doc->createElement("cbc:CountrySubentityCode", $this->CountrySubentityCode));
 
