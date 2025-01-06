@@ -57,7 +57,7 @@ class Supplier
 
         $DOMParty = $doc->generateElement("cac:Party / cbc:IndustryClassificationCode [name=".$this->MSICDesc."]", $this->MSICCode."");
         //PartyIdentification START
-        $DOMPartyId1 = $doc->generateElement("cac:PartyIdentification / cbc:ID [schemeID=TIN]", $this->TIN);
+        $DOMPartyId1 = $doc->generateElement("cac:PartyIdentification / cbc:ID [schemeID=TIN]", trim($this->TIN) );
         $DOMPartyId2 = $doc->generateElement("cac:PartyIdentification / cbc:ID [schemeID=" .strtoupper($this->IdType). "]", $this->IdValue."");
      
         $DOMParty->appendChild($DOMPartyId1);
@@ -71,7 +71,7 @@ class Supplier
         //PostalAddress START
         $DOMPostalAddres = $doc->createElement("cac:PostalAddress");
 
-        $DOMPostalAddres->appendChild($doc->createElement("cbc:CityName", htmlspecialchars($this->CityName)));
+        $DOMPostalAddres->appendChild($doc->createElement("cbc:CityName", htmlspecialchars( trim($this->CityName) )));
         if(isset($this->PostalZone)){
             $DOMPostalAddres->appendChild($doc->createElement("cbc:PostalZone", $this->PostalZone));
         }
@@ -79,7 +79,7 @@ class Supplier
 
         $addressLines = $this->AddressLine;
         for ($i = 0; $i < sizeof($addressLines); $i++) {
-            $DOMAddressLine = $doc->generateElement("cac:AddressLine / cbc:Line", htmlspecialchars($addressLines[$i]));
+            $DOMAddressLine = $doc->generateElement("cac:AddressLine / cbc:Line", htmlspecialchars( trim($addressLines[$i]) ));
             $DOMPostalAddres->appendChild($DOMAddressLine);
         }
 
@@ -88,14 +88,14 @@ class Supplier
         //PostalAddress END
 
         $DOMParty->appendChild(
-            $doc->generateElement("cac:PartyLegalEntity / cbc:RegistrationName", htmlspecialchars($this->RegistrationName))
+            $doc->generateElement("cac:PartyLegalEntity / cbc:RegistrationName", htmlspecialchars( trim($this->RegistrationName) ))
         );
 
         //Contact START
         $ContactArray = array();
-        $ContactArray[] =  ["cac:Contact / cbc:Telephone", $this->Telephone];
+        $ContactArray[] =  ["cac:Contact / cbc:Telephone", htmlspecialchars( $this->Telephone ) ];
         if(isset($this->ElectronicMail)){
-            $ContactArray[] =  ["cac:Contact / cbc:ElectronicMail", htmlspecialchars($this->ElectronicMail)];
+            $ContactArray[] =  ["cac:Contact / cbc:ElectronicMail", htmlspecialchars( trim($this->ElectronicMail) )];
         }
         $DOMContact = $doc->appendChild(
             $doc->generateElements(
