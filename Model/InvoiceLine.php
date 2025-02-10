@@ -11,11 +11,6 @@ class InvoiceLine
     public $InvoicedQuantity;
     public $LineExtensionAmount;
     public $TaxAmount = "0";
-    // public $TaxSubtotalTaxableAmount = "0";
-    // public $TaxSubtotalTaxAmount = "0";
-    // public $TaxSubtotalPercent = "0";
-    // public $TaxCategoryID = "";
-    // public $TaxCategoryTaxExemptionReason = "";
     public $ItemDescription;
     public $ItemPriceAmount;
     public $ItemPriceExtensionAmount;
