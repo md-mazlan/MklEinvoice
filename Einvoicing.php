@@ -65,21 +65,24 @@ class Einvoicing
 
         curl_close($ch);
 
-        if ($httpcode == 403) {
-            $res["httpCode"] = $httpcode;
-            $res["message"] = "IncorrectSubmitter";
-            $json = json_encode($res);
-            return json_decode($json);
-        } elseif ($httpcode == 400) {
-            $res["httpCode"] = $httpcode;
-            $res["message"] = "BadStructure or MaximumSizeExceeded";
-            $json = json_encode($res);
-            return json_decode($json);
-        } else  if ($httpcode == 422) {
-            $res["httpCode"] = $httpcode;
-            $res["message"] = "DuplicateSubmission";
-            $json = json_encode($res);
-            return json_decode($json);
+        if ($response == null) {
+
+            if ($httpcode == 403) {
+                $res["httpCode"] = $httpcode;
+                $res["message"] = "IncorrectSubmitter";
+                $json = json_encode($res);
+                return json_decode($json);
+            } else if ($httpcode == 400) {
+                $res["httpCode"] = $httpcode;
+                $res["message"] = "BadStructure or MaximumSizeExceeded";
+                $json = json_encode($res);
+                return json_decode($json);
+            } else if ($httpcode == 422) {
+                $res["httpCode"] = $httpcode;
+                $res["message"] = "DuplicateSubmission";
+                $json = json_encode($res);
+                return json_decode($json);
+            }
         }
         return json_decode($response);
     }
