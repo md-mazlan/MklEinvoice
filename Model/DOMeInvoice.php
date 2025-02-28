@@ -54,9 +54,9 @@ class DOMeInvoice extends DOMDocument
     }
     public function generateElements($elems):DOMElement
     {
-        $DOMelem = $this->generateElement($elems[0][0], $elems[0][1]);
+        $DOMelem = $this->generateElement($elems[0][0] ?? "null", $elems[0][1] ?? "");
         for ($i = 1; $i < count($elems); $i++) {
-            $elems2 = $this->generateElement($elems[$i][0], $elems[$i][1]);
+            $elems2 = $this->generateElement($elems[$i][0] ?? "null", $elems[$i][1] ?? "");
             $this->combine($DOMelem, $elems2);
         }
 
