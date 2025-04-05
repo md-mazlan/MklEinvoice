@@ -5,7 +5,6 @@
 - Authenticate as a taxpayer or intermediary
 - Submit e-invoice documents
 - Validate taxpayer TINs
-- Digitally sign documents
 - Filter/search submissions
 
 ---
@@ -133,16 +132,6 @@ $queryString = $filter->getParamString();
 |--------|-------------|
 | `validateTaxPayerTin(string $tin, string $idType, string $id): array` | Validate taxpayer TIN |
 | `submitDocuments(array $documents): array` | Submit invoices |
-
----
-
-### DocSignature
-
-| Method | Description |
-|--------|-------------|
-| `__construct(Invoice $invoice, string $p12FilePath, string $issuerName, string $serial)` | Set up for signing |
-| `genDocDigest()` | Create SHA-256 digest of invoice XML |
-| `signDocument()` | Digitally sign the document using `.p12` |
 
 ---
 
