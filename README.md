@@ -14,7 +14,7 @@
 Clone or download this repository into your PHP project:
 
 ```bash
-git clone https://github.com/yourusername/MklEinvoice.git
+git clone https://github.com/md-mazlan/MklEinvoice.git
 ```
 
 Add the `App\MklEinvoice` namespace path to your autoloader, or manually require the files if needed.
@@ -74,7 +74,7 @@ $einvoicing = new Einvoicing($platform);
 $response = $einvoicing->validateTaxPayerTin(
     'TIN_NUMBER',
     'NRIC',              // or PASSPORT, BUSINESS_REGISTRATION
-    'NRIC_OR_DOC_ID'
+    'ID_VALUE'
 );
 ```
 
