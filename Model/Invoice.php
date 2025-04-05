@@ -76,6 +76,13 @@ class Invoice
   }
 
 
+  public function setBuyer(Buyer $buyer){
+    $this->Buyer = $buyer;
+  }
+
+  public function setSupplier(Supplier $supplier){
+    $this->Supplier = $supplier;
+  }
   public function isValid()
   {
     $valid = true;
