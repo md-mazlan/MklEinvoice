@@ -81,18 +81,26 @@ $response = $einvoicing->validateTaxPayerTin(
 ### Submit Documents
 
 ```php
-$documents = [
-    [
-        "documentId" => "INV001",
-        "amount" => 123.45,
-        // Add more fields as per MyInvois spec
-    ]
-];
+use App\MklEinvoice\MyInvoisHelper;
+
+// Generate $xml using Invoice class
+use App\MklEinvoice\Model\Invoice;
+
+$invoice = new Invoice();
+// Fill in invoice details here...
+$xml = $invoice->toXML(); // or the appropriate method to convert to XML
+
+// Build each document using MyInvoisHelper
+$documents = [];
+$document = MyInvoisHelper::getSubmitDocument("xml", $id, $xml);
+$documents[] = $document;
 
 $response = $einvoicing->submitDocuments($documents);
 ```
 
 ---
+
+
 
 ## 🔍 Search & Filter
 
@@ -135,6 +143,13 @@ $queryString = $filter->getParamString();
 
 ---
 
+-----|-------------|
+| `__construct(Invoice $invoice, string $p12FilePath, string $issuerName, string $serial)` | Set up for signing |
+| `genDocDigest()` | Create SHA-256 digest of invoice XML |
+| `signDocument()` | Digitally sign the document using `.p12` |
+
+---
+
 ### SearchFilter
 
 | Property | Description |
@@ -150,3 +165,13 @@ $queryString = $filter->getParamString();
 | `getParamString(): string` | Build query string from parameters |
 
 ---
+
+## 📝 License
+
+MIT License. See [LICENSE](LICENSE) for more info.
+
+---
+
+## 📫 Support / Contribute
+
+Feel free to open issues or pull requests for improvements and bug fixes.
