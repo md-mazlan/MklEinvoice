@@ -8,10 +8,10 @@ use DOMElement;
 
 class AdditionalDocumentReference
 {
-    public $ID;
-    public $UUID;
-    public $DocumentType;
-    public $DocumentDescription;
+    private $ID;
+    private $UUID;
+    private $DocumentType;
+    private $DocumentDescription;
 
     function __construct(string $ID, string $DocumentDescription = "")
     {

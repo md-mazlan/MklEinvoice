@@ -7,16 +7,117 @@ use DOMElement;
 
 class InvoiceLine
 {
-    public $ID;
-    public $InvoicedQuantity;
-    public $LineExtensionAmount;
-    public $TaxAmount = "0";
-    public $ItemDescription;
-    public $ItemPriceAmount;
-    public $ItemPriceExtensionAmount;
-    public $ItemOriginCountryIDCode;
-    public $ClassCode;
-    public $CurrencyID;
+    private $ID;
+    private $InvoicedQuantity;
+    private $LineExtensionAmount;
+    private $TaxAmount = "0";
+    private $ItemDescription;
+    private $ItemPriceAmount;
+    private $ItemPriceExtensionAmount;
+    private $ItemOriginCountryIDCode;
+    private $ClassCode;
+    private $CurrencyID;
+
+    public function getID()
+    {
+        return $this->ID;
+    }
+
+    public function setID($ID): void
+    {
+        $this->ID = $ID;
+    }
+
+    public function getInvoicedQuantity()
+    {
+        return $this->InvoicedQuantity;
+    }
+
+    public function setInvoicedQuantity($InvoicedQuantity): void
+    {
+        $this->InvoicedQuantity = $InvoicedQuantity;
+    }
+
+    public function getLineExtensionAmount()
+    {
+        return $this->LineExtensionAmount;
+    }
+
+    public function setLineExtensionAmount($LineExtensionAmount): void
+    {
+        $this->LineExtensionAmount = $LineExtensionAmount;
+    }
+
+    public function getTaxAmount()
+    {
+        return $this->TaxAmount;
+    }
+
+    public function setTaxAmount($TaxAmount): void
+    {
+        $this->TaxAmount = $TaxAmount;
+    }
+
+    public function getItemDescription()
+    {
+        return $this->ItemDescription;
+    }
+
+    public function setItemDescription($ItemDescription): void
+    {
+        $this->ItemDescription = $ItemDescription;
+    }
+
+    public function getItemPriceAmount()
+    {
+        return $this->ItemPriceAmount;
+    }
+
+    public function setItemPriceAmount($ItemPriceAmount): void
+    {
+        $this->ItemPriceAmount = $ItemPriceAmount;
+    }
+
+    public function getItemPriceExtensionAmount()
+    {
+        return $this->ItemPriceExtensionAmount;
+    }
+
+    public function setItemPriceExtensionAmount($ItemPriceExtensionAmount): void
+    {
+        $this->ItemPriceExtensionAmount = $ItemPriceExtensionAmount;
+    }
+
+    public function getItemOriginCountryIDCode()
+    {
+        return $this->ItemOriginCountryIDCode;
+    }
+
+    public function setItemOriginCountryIDCode($ItemOriginCountryIDCode): void
+    {
+        $this->ItemOriginCountryIDCode = $ItemOriginCountryIDCode;
+    }
+
+    public function getClassCode()
+    {
+        return $this->ClassCode;
+    }
+
+    public function setClassCode($ClassCode): void
+    {
+        $this->ClassCode = $ClassCode;
+    }
+
+    public function getCurrencyID()
+    {
+        return $this->CurrencyID;
+    }
+
+    public function setCurrencyID($CurrencyID): void
+    {
+        $this->CurrencyID = $CurrencyID;
+    }
+    
 
 
     /**

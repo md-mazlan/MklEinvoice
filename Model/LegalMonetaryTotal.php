@@ -4,14 +4,54 @@ use App\MklEinvoice\Model\DOMeInvoice;
 
 use DOMElement;
 class LegalMonetaryTotal{
-    public string $LineExtensionAmount;
-    public string $TaxExclusiveAmount;
-    public string $TaxInclusiveAmount;
-    public string $AllowanceTotalAmount;
-    public string $ChargeTotalAmount;
-    public string $PayableRoundingAmount;
-    public string $PayableAmount;
-    public string $currencyID = "";
+    private string $LineExtensionAmount;
+    private string $TaxExclusiveAmount;
+    private string $TaxInclusiveAmount;
+    private string $AllowanceTotalAmount;
+    private string $ChargeTotalAmount;
+    private string $PayableRoundingAmount;
+    private string $PayableAmount;
+    private string $currencyID = "";
+
+    public function setLineExtensionAmount(string $amount): self {
+        $this->LineExtensionAmount = $amount;
+        return $this;
+    }
+
+    public function setTaxExclusiveAmount(string $amount): self {
+        $this->TaxExclusiveAmount = $amount;
+        return $this;
+    }
+
+    public function setTaxInclusiveAmount(string $amount): self {
+        $this->TaxInclusiveAmount = $amount;
+        return $this;
+    }
+
+    public function setAllowanceTotalAmount(string $amount): self {
+        $this->AllowanceTotalAmount = $amount;
+        return $this;
+    }
+
+    public function setChargeTotalAmount(string $amount): self {
+        $this->ChargeTotalAmount = $amount;
+        return $this;
+    }
+
+    public function setPayableRoundingAmount(string $amount): self {
+        $this->PayableRoundingAmount = $amount;
+        return $this;
+    }
+
+    public function setPayableAmount(string $amount): self {
+        $this->PayableAmount = $amount;
+        return $this;
+    }
+
+    public function setCurrencyID(string $currencyID): self {
+        $this->currencyID = $currencyID;
+        return $this;
+    }
 
     public function getDOMElement(DOMeInvoice $doc):DOMElement{
         $array = array();

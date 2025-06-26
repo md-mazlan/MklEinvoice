@@ -11,21 +11,161 @@ class Supplier
     public const ID_PASSPORT = "PASSPORT";
     public const ID_ARMY = "ARMY";
 
-    public $TIN;
-    public $IdValue;
-    public $IdType; //BRN, NRIC, PASSPORT, ARMY
-    public $CityName;
-    public $PostalZone;
-    public $CountrySubentityCode = 14;
-    public $AddressLine = array();
-    public $CountryIdentificationCode = "MYS";
-    public $RegistrationName;
-    public $Telephone;
-    public $ElectronicMail;
-    public $SST = "";
+    private string $TIN;
+    private string $IdValue;
+    private string $IdType; //BRN, NRIC, PASSPORT, ARMY
+    private string $CityName;
+    private string $PostalZone;
+    private int $CountrySubentityCode = 14;
+    private array $AddressLine = array();
+    private string $CountryIdentificationCode = "MYS";
+    private string $RegistrationName;
+    private string $Telephone;
+    private string $ElectronicMail;
+    private string $SST = "";
 
-    public $MSICCode;
-    public $MSICDesc;
+    private $MSICCode;
+    private $MSICDesc;
+
+    public function getTIN(): string
+    {
+        return $this->TIN;
+    }
+
+    public function setTIN(string $TIN): void
+    {
+        $this->TIN = $TIN;
+    }
+
+    public function getIdValue(): string
+    {
+        return $this->IdValue;
+    }
+
+    public function setIdValue(string $IdValue): void
+    {
+        $this->IdValue = $IdValue;
+    }
+
+    public function getIdType(): string
+    {
+        return $this->IdType;
+    }
+
+    public function setIdType(string $IdType): void
+    {
+        $this->IdType = $IdType;
+    }
+
+    public function getCityName(): string
+    {
+        return $this->CityName;
+    }
+
+    public function setCityName(string $CityName): void
+    {
+        $this->CityName = $CityName;
+    }
+
+    public function getPostalZone(): string
+    {
+        return $this->PostalZone;
+    }
+
+    public function setPostalZone(string $PostalZone): void
+    {
+        $this->PostalZone = $PostalZone;
+    }
+
+    public function getCountrySubentityCode(): int
+    {
+        return $this->CountrySubentityCode;
+    }
+
+    public function setCountrySubentityCode(int $CountrySubentityCode): void
+    {
+        $this->CountrySubentityCode = $CountrySubentityCode;
+    }
+
+    public function getAddressLine(): array
+    {
+        return $this->AddressLine;
+    }
+
+    public function setAddressLine(array $AddressLine): void
+    {
+        $this->AddressLine = $AddressLine;
+    }
+
+    public function getCountryIdentificationCode(): string
+    {
+        return $this->CountryIdentificationCode;
+    }
+
+    public function setCountryIdentificationCode(string $CountryIdentificationCode): void
+    {
+        $this->CountryIdentificationCode = $CountryIdentificationCode;
+    }
+
+    public function getRegistrationName(): string
+    {
+        return $this->RegistrationName;
+    }
+
+    public function setRegistrationName(string $RegistrationName): void
+    {
+        $this->RegistrationName = $RegistrationName;
+    }
+
+    public function getTelephone(): string
+    {
+        return $this->Telephone;
+    }
+
+    public function setTelephone(string $Telephone): void
+    {
+        $this->Telephone = $Telephone;
+    }
+
+    public function getElectronicMail(): string
+    {
+        return $this->ElectronicMail;
+    }
+
+    public function setElectronicMail(string $ElectronicMail): void
+    {
+        $this->ElectronicMail = $ElectronicMail;
+    }
+
+    public function getSST(): string
+    {
+        return $this->SST;
+    }
+
+    public function setSST(string $SST): void
+    {
+        $this->SST = $SST;
+    }
+
+    public function getMSICCode()
+    {
+        return $this->MSICCode;
+    }
+
+    public function setMSICCode($MSICCode): void
+    {
+        $this->MSICCode = $MSICCode;
+    }
+
+    public function getMSICDesc()
+    {
+        return $this->MSICDesc;
+    }
+
+    public function setMSICDesc($MSICDesc): void
+    {
+        $this->MSICDesc = $MSICDesc;
+    }
 
     function isValid(): bool
     {

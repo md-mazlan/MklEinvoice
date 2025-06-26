@@ -8,8 +8,8 @@ use DOMElement;
 
 class InvoiceDocumentReference
 {
-    public $ID;
-    public $UUID;
+    private $ID;
+    private $UUID;
 
     function __construct(string $ID, string $UUID = "")
     {

@@ -18,74 +18,217 @@ class Invoice
   public function __construct($listVersionID)
   {
     // $this->SignatureValue = hash('sha256', $token);
-    
+
     $this->doc = new DOMeInvoice("1.0", "UTF-8");
 
     $this->listVersionID = $listVersionID;
   }
-  public function getDoc() : DOMeInvoice{
+  public function getDoc(): DOMeInvoice
+  {
     return $this->doc;
   }
-  public function setDoc(DOMeInvoice $doc){
+  public function setDoc(DOMeInvoice $doc)
+  {
     $this->doc = $doc;
   }
-  public $ID;
-  public $listVersionID;
-  public $IssueDate;
-  public $IssueTime;
-  public $DocumentCurrencyCode = "MYR";
-  public $TaxCurrencyCode = "";
+  private $ID;
+  private $listVersionID;
+  private $IssueDate;
+  private $IssueTime;
+  private $DocumentCurrencyCode = "MYR";
+  private $TaxCurrencyCode = "";
 
-  public $StartDate;
-  public $EndDate;
-  public $Description;
-  public $AdditionalDocumentReferenceID;
-  public $IndustryClassificationCode;
-  public $SupplierTIN;
-  public $SupplierBRN;
+  // private $SupplierTIN;
+  // private $SupplierBRN;
 
-  public Supplier $Supplier;
-  public Buyer $Buyer;
+  private Supplier $Supplier;
+  private Buyer $Buyer;
 
-  public $PaymentMeansCode = "01";
-  public $PayeeFinancialAccount;
-  public $PaymentTermsNote;
+  private $TaxAmount;
+  private $TaxCategory;
 
-  public $TaxAmount;
-  public $TaxCategory;
+  private $TaxExclusiveAmount;
+  private $TaxInclusiveAmount;
 
-  public $TaxExclusiveAmount;
-  public $TaxInclusiveAmount;
-  public $PayableAmount;
+  private $InvoiceTypeCode = "01";
 
-  public $InvoiceTypeCode = "01";
+  private InvoiceLineList $InvoiceLineList;
 
-  public InvoiceLineList $InvoiceLineList;
+  private LegalMonetaryTotal $LegalMonetaryTotal;
 
-  public LegalMonetaryTotal $LegalMonetaryTotal;
+  private ListAddDocRef $listAddDocRef;
 
-  public ListAddDocRef $listAddDocRef;
-
-  public ListInvDocRef $listInvDocRef;
+  private ListInvDocRef $listInvDocRef;
 
   private ?DOMElement $DOMSignature = null;
 
 
   private $signed = false;
 
-  public function setSignature(DOMElement $DOMSignature){
+  public function setDocumentCurrencyCode(string $DocumentCurrencyCode)
+  {
+    $this->DocumentCurrencyCode = $DocumentCurrencyCode;
+  }
+
+  public function setInvoiceTypeCode(string $InvoiceTypeCode)
+  {
+    $this->InvoiceTypeCode = $InvoiceTypeCode;
+  }
+
+  public function setID(string $ID)
+  {
+    $this->ID = $ID;
+  }
+
+  public function setIssueDate(string $IssueDate)
+  {
+    $this->IssueDate = $IssueDate;
+  }
+  public function setIssueTime(string $IssueTime)
+  {
+    $this->IssueTime = $IssueTime;
+  }
+  public function setTaxCurrencyCode(string $TaxCurrencyCode)
+  {
+    $this->TaxCurrencyCode = $TaxCurrencyCode;
+  }
+
+  public function setSignature(DOMElement $DOMSignature)
+  {
     $this->DOMSignature = $DOMSignature;
     $this->signed = true;
   }
+  public function setTaxAmount(string $TaxAmount)
+  {
+    $this->TaxAmount = $TaxAmount;
+  }
 
 
-  public function setBuyer(Buyer $buyer){
+
+  public function setBuyer(Buyer $buyer)
+  {
     $this->Buyer = $buyer;
   }
 
-  public function setSupplier(Supplier $supplier){
+  public function setSupplier(Supplier $supplier)
+  {
     $this->Supplier = $supplier;
   }
+
+  public function setListAdditionalDocRef(ListAddDocRef $listAddDocRef)
+  {
+    $this->listAddDocRef = $listAddDocRef;
+  }
+
+  public function setListInvoiceDocRef(ListInvDocRef $listInvDocRef)
+  {
+    $this->listInvDocRef = $listInvDocRef;
+  }
+
+  public function setInvoiceLineList(InvoiceLineList $invoiceLineList)
+  {
+    $this->InvoiceLineList = $invoiceLineList;
+  }
+
+  public function setLegalMonetaryTotal(LegalMonetaryTotal $legalMonetaryTotal)
+  {
+    $this->LegalMonetaryTotal = $legalMonetaryTotal;
+  }
+  public function setTaxExclusiveAmount(string $TaxExclusiveAmount)
+  {
+    $this->TaxExclusiveAmount = $TaxExclusiveAmount;
+  }
+  public function setTaxInclusiveAmount(string $TaxInclusiveAmount)
+  {
+    $this->TaxInclusiveAmount = $TaxInclusiveAmount;
+  }
+  public function setTaxCategory(string $TaxCategory)
+  {
+    $this->TaxCategory = $TaxCategory;
+  }
+
+
+  public function getID(): ?string
+  {
+    return $this->ID;
+  }
+  public function getDocumentCurrencyCode(): string
+  {
+    return $this->DocumentCurrencyCode;
+  }
+  public function getTaxCurrencyCode(): string
+  {
+    return $this->TaxCurrencyCode;
+  }
+  public function getIssueDate(): ?string
+  {
+    return $this->IssueDate;
+  }
+  public function getIssueTime(): ?string
+  {
+    return $this->IssueTime;
+  }
+  public function getInvoiceTypeCode(): string
+  {
+    return $this->InvoiceTypeCode;
+  }
+  public function getTaxAmount(): ?string
+  {
+    return $this->TaxAmount;
+  }
+  public function getTaxCategory(): ?string
+  {
+    return $this->TaxCategory;
+  }
+  public function getTaxExclusiveAmount(): ?string
+  {
+    return $this->TaxExclusiveAmount;
+  }
+  public function getTaxInclusiveAmount(): ?string
+  {
+    return $this->TaxInclusiveAmount;
+  }
+  public function getSupplier(): Supplier
+  {
+    return $this->Supplier;
+  }
+  public function getBuyer(): Buyer
+  {
+    return $this->Buyer;
+  }
+  public function getListAdditionalDocRef(): ListAddDocRef
+  {
+    return $this->listAddDocRef;
+  }
+  public function getListInvoiceDocRef(): ListInvDocRef
+  {
+    return $this->listInvDocRef;
+  }
+  public function getInvoiceLineList(): InvoiceLineList
+  {
+    return $this->InvoiceLineList;
+  }
+  public function getLegalMonetaryTotal(): LegalMonetaryTotal
+  {
+    return $this->LegalMonetaryTotal;
+  }
+  public function getListVersionID(): ?string
+  {
+    return $this->listVersionID;
+  }
+  public function getInvoiceType(): string
+  {
+    return $this->InvoiceTypeCode;
+  }
+  public function getSigned(): bool
+  {
+    return $this->signed;
+  }
+  public function getDOMSignature(): ?DOMElement
+  {
+    return $this->DOMSignature;
+  }
+
   public function isValid()
   {
     $valid = true;
@@ -107,7 +250,7 @@ class Invoice
     return $valid;
   }
   public function generateDOM(): DOMeInvoice
-  
+
   {
     $doc = $this->doc;
     $InvoiceID = $this->ID;
@@ -157,11 +300,11 @@ class Invoice
     $DOMInvoice->appendChild($InvoiceTypeCode);
     $DOMInvoice->appendChild($cbcDocumentCurrencyCode);
 
-    if(!empty($this->TaxCurrencyCode)){
+    if (!empty($this->TaxCurrencyCode)) {
       $cbcTaxCurrencyCode = $doc->createElement("cbc:TaxCurrencyCode", $this->TaxCurrencyCode);
       $DOMInvoice->appendChild($cbcTaxCurrencyCode);
     }
-    
+
 
     //invoice reference
     if (isset($this->listInvDocRef)) {
@@ -183,7 +326,7 @@ class Invoice
     // );
     // $DOMInvoice->appendChild($DOMBillingRef);
     //billing reference end
-    
+
     if (isset($this->listAddDocRef)) {
       for ($i = 0; $i < $this->listAddDocRef->length(); $i++) {
         $addDocRef = $this->listAddDocRef->get($i);
@@ -253,9 +396,9 @@ class Invoice
 
     //TaxTotal START
     $TaxTotalArray = array(
-      ["cac:TaxTotal / cbc:TaxAmount [currencyID=".$this->DocumentCurrencyCode."]", $this->TaxAmount],
-      ["cac:TaxTotal / cac:TaxSubtotal / cbc:TaxableAmount [currencyID=".$this->DocumentCurrencyCode."]", $this->TaxAmount],
-      ["cac:TaxTotal / cac:TaxSubtotal / cbc:TaxAmount [currencyID=".$this->DocumentCurrencyCode."]", $this->TaxAmount],
+      ["cac:TaxTotal / cbc:TaxAmount [currencyID=" . $this->DocumentCurrencyCode . "]", $this->TaxAmount],
+      ["cac:TaxTotal / cac:TaxSubtotal / cbc:TaxableAmount [currencyID=" . $this->DocumentCurrencyCode . "]", $this->TaxAmount],
+      ["cac:TaxTotal / cac:TaxSubtotal / cbc:TaxAmount [currencyID=" . $this->DocumentCurrencyCode . "]", $this->TaxAmount],
       ["cac:TaxTotal / cac:TaxSubtotal / cac:TaxCategory / cbc:ID", $this->TaxCategory],
       ["cac:TaxTotal / cac:TaxSubtotal / cac:TaxCategory / cac:TaxScheme / cbc:ID [schemeID=UN/ECE 5153 | schemeAgencyID=6]", "OTH"]
     );
@@ -263,7 +406,7 @@ class Invoice
     $DOMInvoice->appendChild($DOMTaxTotal);
     //TaxTotal END
 
-    $this->LegalMonetaryTotal->currencyID = $this->DocumentCurrencyCode;
+    $this->LegalMonetaryTotal->setCurrencyID($this->DocumentCurrencyCode);
     $DOMLegalMonetaryTotal = $this->LegalMonetaryTotal->getDOMElement($doc);
     $DOMInvoice->appendChild($DOMLegalMonetaryTotal);
 
@@ -271,7 +414,7 @@ class Invoice
     $thisLineList = $this->InvoiceLineList->getList();
     for ($i = 0; $i < sizeof($thisLineList); $i++) {
       $thisLine = $thisLineList[$i];
-      $thisLine->CurrencyID = $this->DocumentCurrencyCode;
+      $thisLine->setCurrencyID($this->DocumentCurrencyCode);
       $DOMInvoice->appendChild($thisLine->getDOMElement($doc));
     }
     //INVOICE LINE END
