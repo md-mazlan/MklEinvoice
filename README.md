@@ -1,173 +1,220 @@
-# MklEinvoice PHP SDK
+# MklEinvoice
 
-**MklEinvoice** is a PHP SDK for integrating with Malaysia's MyInvois electronic invoicing platform. It provides tools to:
+**Repository:** [https://github.com/md-mazlan/MklEinvoice](https://github.com/md-mazlan/MklEinvoice)
 
-- Authenticate as a taxpayer or intermediary
-- Submit e-invoice documents
-- Validate taxpayer TINs
-- Filter/search submissions
+## 📜 Overview
+
+**MklEinvoice** is a PHP SDK designed to simplify integration with Malaysia's *MyInvois e-Invoicing System* by LHDN. It handles XML invoice generation, document submission, certificate authentication, and status tracking.
 
 ---
 
-## 📦 Installation
+## 🚀 Installation
 
-Clone or download this repository into your PHP project:
+1. **Clone the repository:**
 
-```bash
-git clone https://github.com/yourusername/MklEinvoice.git
+   ```bash
+   git clone https://github.com/md-mazlan/MklEinvoice.git
+   cd MklEinvoice
+   ```
+
+2. **Directory structure:**
+
+   ```
+   MklEinvoice/
+   ├── App/
+   │   └── MklEinvoice/
+   │       ├── Model/
+   │       │   └── Invoice.php
+   │       ├── Platform.php
+   │       ├── MyInvoisHelper.php
+   │       └── ...
+   ├── config/
+   ├── submit_document.php
+   └── README.md
+   ```
+
+---
+
+## 🔐 Certificate Setup
+
+Ensure you have your `.p12` digital certificate from LHDN.
+
+```php
+$platform = new Platform('path/to/certificate.p12', 'your_password');
+$platform->loginAsTaxPayer($uuid, $user_id);
 ```
 
-Add the `App\MklEinvoice` namespace path to your autoloader, or manually require the files if needed.
+---
+
+## 🧩 Components Breakdown
+
+### 1. `Invoice.php` – XML Invoice Builder
+
+This class builds XML invoices as required by LHDN.
+
+**Sample usage:**
+
+```php
+use App\MklEinvoice\Model\Invoice;
+
+$invoice = new Invoice();
+$invoice->setSeller($sellerData);
+$invoice->setBuyer($buyerData);
+$invoice->addItem($item);
+$xml = $invoice->toXML();
+```
+
+**Common Methods:**
+
+| Method                   | Description              |
+| ------------------------ | ------------------------ |
+| `setSeller(array $data)` | Sets seller information. |
+| `setBuyer(array $data)`  | Sets buyer information.  |
+| `addItem(array $item)`   | Adds an invoice item.    |
+| `toXML()`                | Returns the invoice XML. |
+
+**Class Details:**
+
+- Accepts structured arrays matching LHDN's schema.
+- Supports single and multi-line item configurations.
+- Validates mandatory tags like `InvoiceDate`, `InvoiceNumber`, `Seller`, etc.
 
 ---
 
-## ⚙️ Setup
+### 2. `Platform.php` – Handles Authentication and API Submission
 
-### Environment Configuration
+Handles login, document submission, and interaction with LHDN.
 
-Use the `Platform` class to switch between sandbox and production:
+**Key Methods:**
+
+```php
+$platform->loginAsTaxPayer($uuid, $user_id);
+$platform->submitDocument($type, $uuid, $xml);
+$platform->getDocument($uuid);
+```
+
+| Method              | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| `loginAsTaxPayer()` | Authenticates using taxpayer UUID and User ID. |
+| `submitDocument()`  | Submits the XML document to MyInvois.          |
+| `getDocument()`     | Retrieves the status or response.              |
+
+**Additional Notes:**
+
+- Uses `curl` with SSL certificate authentication.
+- Handles both success and error responses from the LHDN API.
+
+---
+
+### 3. `MyInvoisHelper.php` – Utility for Submission
+
+Wraps helper methods for document preparation.
+
+**Example:**
+
+```php
+$document = MyInvoisHelper::getSubmitDocument("xml", $id, $xml);
+$documents[] = $document;
+```
+
+| Method                                  | Description                                          |
+| --------------------------------------- | ---------------------------------------------------- |
+| `getSubmitDocument($type, $uuid, $xml)` | Returns a structured array formatted for submission. |
+
+---
+
+## 🧪 Example: Full Submission Flow
 
 ```php
 use App\MklEinvoice\Platform;
-
-$platform = new Platform(false); // false = sandbox, true = production
-```
-
----
-
-## 🔐 Authentication
-
-### Login as Taxpayer
-
-```php
-$platform->loginAsTaxPayer('<client_id>', '<client_secret>');
-```
-
-### Login as Intermediary
-
-```php
-$platform->loginAsIntermediary('<client_id>', '<client_secret>', '<onbehalfof>');
-```
-
-### Get Token or Error
-
-```php
-$token = $platform->getToken(); // internal use
-$error = $platform->getLoginError();
-```
-
----
-
-## 📤 Einvoicing Operations
-
-### Initialize
-
-```php
-use App\MklEinvoice\Einvoicing;
-
-$einvoicing = new Einvoicing($platform);
-```
-
-### Validate Taxpayer TIN
-
-```php
-$response = $einvoicing->validateTaxPayerTin(
-    'TIN_NUMBER',
-    'NRIC',              // or PASSPORT, BUSINESS_REGISTRATION
-    'NRIC_OR_DOC_ID'
-);
-```
-
-### Submit Documents
-
-```php
+use App\MklEinvoice\Model\Invoice;
 use App\MklEinvoice\MyInvoisHelper;
 
-// Build each document using MyInvoisHelper
-$documents = [];
-$document = MyInvoisHelper::getSubmitDocument("xml", $id, $xml);
-$documents[] = $document;
+$invoice = new Invoice();
+$invoice->setSeller([...]);
+$invoice->setBuyer([...]);
+$invoice->addItem([...]);
+$xml = $invoice->toXML();
 
-$response = $einvoicing->submitDocuments($documents);
+$platform = new Platform('cert.p12', 'password');
+$platform->loginAsTaxPayer('uuid', 'user-id');
+
+$document = MyInvoisHelper::getSubmitDocument("xml", 'uuid', $xml);
+$response = $platform->submitDocument("xml", 'uuid', $xml);
 ```
 
 ---
 
+## 📂 Environment Configuration
 
+Create `.env` or config file for:
 
-## 🔍 Search & Filter
+```env
+CERT_PATH=/path/to/cert.p12
+CERT_PASS=yourpassword
+UUID=your-taxpayer-uuid
+USER_ID=your-user-id
+```
 
-Use the `SearchFilter` class to build search queries for invoice status, date, direction, etc.
+---
+
+## 📬 API Response Example
+
+**Success:**
+
+```json
+{
+  "status": "success",
+  "uuid": "RJADDYYWD5FFXVZGY64C7VXJ10",
+  "timestamp": "2025-06-18T02:46:25Z"
+}
+```
+
+**Failure:**
+
+```json
+{
+  "status": "error",
+  "message": "Invalid certificate signature."
+}
+```
+
+---
+
+## 📩 Error Handling
+
+Always handle exceptions when submitting documents:
 
 ```php
-use App\MklEinvoice\SearchFilter;
-
-$filter = new SearchFilter();
-$filter->pageNo = 1;
-$filter->pageSize = 50;
-$filter->submissionDateFrom = "2024-01-01";
-$filter->submissionDateTo = "2024-12-31";
-
-$queryString = $filter->getParamString();
-// ?pageNo=1&pageSize=50&submissionDateFrom=2024-01-01&...
+try {
+    $platform->submitDocument("xml", $uuid, $xml);
+} catch (Exception $e) {
+    echo "Submission failed: " . $e->getMessage();
+}
 ```
 
 ---
 
-## 🧾 Class Reference
+## 🛠 Architecture Diagram
 
-### Platform
-
-| Method | Description |
-|--------|-------------|
-| `__construct(bool $isProduction)` | Set environment |
-| `loginAsTaxPayer(string $clientId, string $clientSecret): bool` | Authenticate taxpayer |
-| `loginAsIntermediary(string $clientId, string $clientSecret, string $onbehalfof): bool` | Authenticate intermediary |
-| `getLoginError(): string` | Return last error message |
+```text
+[YourApp] --> [Invoice Builder (Invoice.php)]
+         --> [MyInvoisHelper.php] --> [Platform.php] --> [LHDN API]
+```
 
 ---
 
-### Einvoicing
+## 📌 To Do / Future Improvements
 
-| Method | Description |
-|--------|-------------|
-| `validateTaxPayerTin(string $tin, string $idType, string $id): array` | Validate taxpayer TIN |
-| `submitDocuments(array $documents): array` | Submit invoices |
-
----
-
-### DocSignature
-
-| Method | Description |
-|--------|-------------|
-| `__construct(Invoice $invoice, string $p12FilePath, string $issuerName, string $serial)` | Set up for signing |
-| `genDocDigest()` | Create SHA-256 digest of invoice XML |
-| `signDocument()` | Digitally sign the document using `.p12` |
+- Unit test coverage for `Invoice` generation
+- Support for JSON payloads
+- Logging and better error feedback
+- GUI form builder for invoice creation
+- CLI tool for developers
 
 ---
 
-### SearchFilter
+## 📄 License
 
-| Property | Description |
-|----------|-------------|
-| `pageNo`, `pageSize` | Pagination controls |
-| `submissionDateFrom`, `submissionDateTo` | Filter by submission date |
-| `issueDateFrom`, `issueDateTo` | Filter by invoice issue date |
-| `direction`, `status`, `documentType` | Additional filters |
-| `receiverId`, `receiverTin`, `issuerTin`, etc. | Entity-based filters |
+MIT License – you are free to use, modify, and distribute.
 
-| Method | Description |
-|--------|-------------|
-| `getParamString(): string` | Build query string from parameters |
-
----
-
-## 📝 License
-
-MIT License. See [LICENSE](LICENSE) for more info.
-
----
-
-## 📫 Support / Contribute
-
-Feel free to open issues or pull requests for improvements and bug fixes.
