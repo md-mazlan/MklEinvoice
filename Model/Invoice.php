@@ -71,8 +71,11 @@ class Invoice
   private ?DOMElement $DOMSignature = null;
 
 
+  private $signed = false;
+
   public function setSignature(DOMElement $DOMSignature){
     $this->DOMSignature = $DOMSignature;
+    $this->signed = true;
   }
 
 
@@ -118,12 +121,12 @@ class Invoice
     $attr1 = $doc->cr8Attr("xmlns", "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2");
     $attr2 = $doc->cr8Attr("xmlns:cac", "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2");
     $attr3 = $doc->cr8Attr("xmlns:cbc", "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2");
-    $attr4 = $doc->cr8Attr("xmlns:ext", "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2");
+    // $attr4 = $doc->cr8Attr("xmlns:ext", "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2");
 
     $DOMInvoice->appendChild($attr1);
     $DOMInvoice->appendChild($attr2);
     $DOMInvoice->appendChild($attr3);
-    $DOMInvoice->appendChild($attr4);
+    // $DOMInvoice->appendChild($attr4);
 
     // if ($signed) {
     //   $docSign = new DocSignature($this->generateDOM());
@@ -189,15 +192,15 @@ class Invoice
       }
     }
 
-    // if ($signed) {
-    //   $DOMSig = $doc->generateElements(
-    //     array(
-    //       ["cac:Signature / cbc:ID", "urn:oasis:names:specification:ubl:signature:Invoice"],
-    //       ["cac:Signature / cbc:SignatureMethod", "urn:oasis:names:specification:ubl:dsig:enveloped:xades"]
-    //     )
-    //   );
-    //   $DOMInvoice->appendChild($DOMSig);
-    // }
+    if ($this->signed) {
+      $DOMSig = $doc->generateElements(
+        array(
+          ["cac:Signature / cbc:ID", "urn:oasis:names:specification:ubl:signature:Invoice"],
+          ["cac:Signature / cbc:SignatureMethod", "urn:oasis:names:specification:ubl:dsig:enveloped:xades"]
+        )
+      );
+      $DOMInvoice->appendChild($DOMSig);
+    }
 
     //SUPPLIER
     $supplier = $this->Supplier;

@@ -14,7 +14,7 @@
 Clone or download this repository into your PHP project:
 
 ```bash
-git clone https://github.com/md-mazlan/MklEinvoice.git
+git clone https://github.com/yourusername/MklEinvoice.git
 ```
 
 Add the `App\MklEinvoice` namespace path to your autoloader, or manually require the files if needed.
@@ -74,7 +74,7 @@ $einvoicing = new Einvoicing($platform);
 $response = $einvoicing->validateTaxPayerTin(
     'TIN_NUMBER',
     'NRIC',              // or PASSPORT, BUSINESS_REGISTRATION
-    'ID_VALUE'
+    'NRIC_OR_DOC_ID'
 );
 ```
 
@@ -82,13 +82,6 @@ $response = $einvoicing->validateTaxPayerTin(
 
 ```php
 use App\MklEinvoice\MyInvoisHelper;
-
-// Generate $xml using Invoice class
-use App\MklEinvoice\Model\Invoice;
-
-$invoice = new Invoice();
-// Fill in invoice details here...
-$xml = $invoice->toXML(); // or the appropriate method to convert to XML
 
 // Build each document using MyInvoisHelper
 $documents = [];
@@ -143,7 +136,10 @@ $queryString = $filter->getParamString();
 
 ---
 
------|-------------|
+### DocSignature
+
+| Method | Description |
+|--------|-------------|
 | `__construct(Invoice $invoice, string $p12FilePath, string $issuerName, string $serial)` | Set up for signing |
 | `genDocDigest()` | Create SHA-256 digest of invoice XML |
 | `signDocument()` | Digitally sign the document using `.p12` |
